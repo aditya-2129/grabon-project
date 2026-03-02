@@ -59,17 +59,19 @@ export interface InstagramCopy {
  * A single generated copy variant.
  * Channel-specific fields are stored in `content`.
  */
+export type CopyContent =
+  | { type: 'email'; data: EmailCopy }
+  | { type: 'whatsapp'; data: string }
+  | { type: 'push'; data: PushCopy }
+  | { type: 'glance'; data: string }
+  | { type: 'payu'; data: string }
+  | { type: 'instagram'; data: InstagramCopy };
+
 export interface ChannelCopy {
   channel: Channel;
   variant: Variant;
   language: Language;
-  content:
-    | { type: "email"; data: EmailCopy }
-    | { type: "whatsapp"; data: string } // max 160 chars
-    | { type: "push"; data: PushCopy }
-    | { type: "glance"; data: string } // max 160 chars, standalone
-    | { type: "payu"; data: string } // max 40 chars, action-oriented
-    | { type: "instagram"; data: InstagramCopy };
+  content: CopyContent;
 }
 
 /** Delivery status from webhook simulation */

@@ -1,73 +1,60 @@
-# React + TypeScript + Vite
+# 📊 GrabOn Distribution Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Real-time Visualization for Multi-Channel Deal Distribution**
 
-Currently, two official plugins are available:
+This is the React-based frontend dashboard that connects to the GrabOn MCP Server's mock webhook server via Server-Sent Events (SSE). It provides live analytics, delivery status visualization, and a deep-dive viewer for the 54 generated copy variants.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📋 Features
 
-## React Compiler
+- **Live SSE Integration:** Real-time updates as deals are distributed and delivered across 6 channels.
+- **Analytics Charts (SVG-based):**
+  - **Delivery Status Donut:** Breakdown of Successful, Failed, and Pending deliveries.
+  - **Success Rate Bar Chart:** Comparison of delivery performance across channels.
+  - **Latency Chart:** Visualizes average response times per channel.
+  - **Variant × Channel Matrix:** A heatmap showing coverage across A/B variants and channels.
+- **Copy Viewer:**
+  - View all **54 variants** in one place.
+  - Filter by Channel, Variant (Urgency/Value/Social Proof), and Language (EN/HI/TE).
+  - Channel-specific UI rendering for Email, WhatsApp, Push, Glance, PayU, and Instagram.
+- **Live Event Log:** A scrolling feed of the latest delivery attempts.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework:** React 19 + TypeScript
+- **Build Tool:** Vite
+- **Styling:** Vanilla CSS (Modern design with glassmorphism and animations)
+- **Charts:** Custom SVG components (No heavy chart libraries)
+- **Communication:** Server-Sent Events (SSE)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 18+
+- The GrabOn MCP Server running (it provides the `/events` SSE stream)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Setup
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   ```bash
+   npm install
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Open `http://localhost:5173` in your browser.
+
+## 🏗️ Architecture
+
+The dashboard establishes a persistent connection to `http://localhost:3456/events` (the webhook server). When a simulation starts, it clears the state and begins streaming delivery events, updating the charts and Copy Viewer in real-time.
+
+---
+
+## 📄 License
+
+ISC

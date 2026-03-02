@@ -3,7 +3,7 @@ import { DeliveryDonut, ChannelSuccessChart, LatencyChart, VariantHeatmap } from
 import { CopyViewer } from './CopyViewer';
 
 export default function App() {
-  const { events, channelStats, isConnected, isSimulating, dealInfo, summary } = useDeliveryEvents();
+  const { events, dedupedEvents, channelStats, isConnected, isSimulating, dealInfo, summary } = useDeliveryEvents();
 
   return (
     <div className="dashboard">
@@ -67,57 +67,68 @@ export default function App() {
       </div>
 
       <div className="stats-grid">
-        <div className="card">
-          <h2 style={{ marginBottom: '1.5rem' }}>Channel Distribution</h2>
-          <div className="channel-list">
-            {channelStats.map((stat) => (
-              <div key={stat.channel} className="channel-item">
-                <div className="channel-name">{stat.channel}</div>
-                <div className="progress-bar">
-                  <div 
-                    className="progress-fill" 
-                    style={{ width: `${stat.total > 0 ? (stat.delivered / stat.total) * 100 : 0}%` }}
-                  ></div>
-                </div>
-                <div style={{ textAlign: 'right', fontSize: '0.85rem' }}>
-                  {stat.delivered}/{stat.total}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="card">
-          <h2 style={{ marginBottom: '1.5rem' }}>Live Delivery Log</h2>
-          <div className="event-log">
-            {events.length === 0 ? (
-              <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>
-                Waiting for events...
-              </div>
-            ) : (
-              events.map((event, i) => (
-                <div key={i} className="event-item">
-                  <div>
-                    <span style={{ fontWeight: 600, textTransform: 'capitalize' }}>{event.channel}</span>
-                    <span style={{ color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>
-                      ({event.variant}, {event.language})
-                    </span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>{event.latencyMs}ms</span>
-                    <span className={`status-tag ${event.status}`}>
-                      {event.status}
-                    </span>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
+        <ChannelDistribution stats={channelStats} />
+        <EventLog events={events} />
       </div>
 
       {/* ── Generated Copies ── */}
-      <CopyViewer events={events} />
+      <CopyViewer events={dedupedEvents} />
+    </div>
+  );
+}
+
+function ChannelDistribution({ stats }: { stats: import('./types').ChannelStats[] }) {
+  return (
+    <div className="card">
+      <h2 style={{ marginBottom: '1.5rem' }}>Channel Distribution</h2>
+      <div className="channel-list">
+        {stats.map((stat) => (
+          <div key={stat.channel} className="channel-item">
+            <div className="channel-name">{stat.channel}</div>
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{ width: `${stat.total > 0 ? (stat.delivered / stat.total) * 100 : 0}%` }}
+              ></div>
+            </div>
+            <div style={{ textAlign: 'right', fontSize: '0.85rem' }}>
+              {stat.delivered}/{stat.total}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EventLog({ events }: { events: import('./types').DeliveryEvent[] }) {
+  return (
+    <div className="card">
+      <h2 style={{ marginBottom: '1.5rem' }}>Live Delivery Log</h2>
+      <div className="event-log">
+        {events.length === 0 ? (
+          <div style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '1.5rem' }}>
+            Waiting for events...
+          </div>
+        ) : (
+          events.map((event, i) => (
+            <div key={i} className="event-item">
+              <div>
+                <span style={{ fontWeight: 600, textTransform: 'capitalize' }}>{event.channel}</span>
+                <span style={{ color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>
+                  ({event.variant}, {event.language})
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <span style={{ color: 'var(--text-secondary)' }}>{event.latencyMs}ms</span>
+                <span className={`status-tag ${event.status}`}>
+                  {event.status}
+                </span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }

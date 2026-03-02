@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import type { DeliveryEvent, ChannelStats, Channel } from './types';
 
 const ALL_CHANNELS: Channel[] = ['email', 'whatsapp', 'push', 'glance', 'payu', 'instagram'];
@@ -55,30 +55,35 @@ export function useDeliveryEvents() {
     };
   }, [connect]);
 
-  const channelStats: ChannelStats[] = ALL_CHANNELS.map((channel) => {
-    const channelEvents = events.filter((e) => e.channel === channel);
-    // Deduplicate — only keep the latest event per channel/variant/language
-    const uniqueKeys = new Set<string>();
-    const dedupedEvents: DeliveryEvent[] = [];
-    for (const evt of channelEvents) {
+  const getDedupedEvents = useCallback((rawEvents: DeliveryEvent[]) => {
+    const seen = new Map<string, DeliveryEvent>();
+    for (const evt of rawEvents) {
       const key = `${evt.channel}-${evt.variant}-${evt.language}`;
-      if (!uniqueKeys.has(key)) {
-        uniqueKeys.add(key);
-        dedupedEvents.push(evt);
+      if (!seen.has(key)) {
+        seen.set(key, evt);
       }
     }
+    return Array.from(seen.values());
+  }, []);
 
-    return {
-      channel,
-      delivered: dedupedEvents.filter((e) => e.status === 'delivered').length,
-      failed: dedupedEvents.filter((e) => e.status === 'failed').length,
-      pending: dedupedEvents.filter((e) => e.status === 'pending').length,
-      total: dedupedEvents.length,
-      avgLatency: dedupedEvents.length > 0
-        ? Math.round(dedupedEvents.reduce((s, e) => s + e.latencyMs, 0) / dedupedEvents.length)
-        : 0,
-    };
-  });
+  const channelStats: ChannelStats[] = useMemo(() => {
+    const deduped = getDedupedEvents(events);
+    
+    return ALL_CHANNELS.map((channel) => {
+      const chEvents = deduped.filter((e) => e.channel === channel);
+
+      return {
+        channel,
+        delivered: chEvents.filter((e) => e.status === 'delivered').length,
+        failed: chEvents.filter((e) => e.status === 'failed').length,
+        pending: chEvents.filter((e) => e.status === 'pending').length,
+        total: chEvents.length,
+        avgLatency: chEvents.length > 0
+          ? Math.round(chEvents.reduce((s, e) => s + e.latencyMs, 0) / chEvents.length)
+          : 0,
+      };
+    });
+  }, [events, getDedupedEvents]);
 
   const totalDelivered = channelStats.reduce((s, c) => s + c.delivered, 0);
   const totalFailed = channelStats.reduce((s, c) => s + c.failed, 0);
@@ -88,6 +93,7 @@ export function useDeliveryEvents() {
 
   return {
     events,
+    dedupedEvents: getDedupedEvents(events),
     channelStats,
     isConnected,
     isSimulating,

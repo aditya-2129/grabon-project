@@ -1,7 +1,4 @@
-// ============================================================
-// Mock Webhook Delivery Server with SSE Support
-// Sends real-time events to the React dashboard
-// ============================================================
+// Mock Webhook Delivery Server with SSE Support (broadcasts to React dashboard)
 
 import express from "express";
 import type { Server as HttpServer } from "node:http";

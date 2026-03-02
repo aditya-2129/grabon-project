@@ -69,6 +69,10 @@ export async function deliverToChannel(
       }
     } catch (error) {
       const latencyMs = Date.now() - startTime;
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      
+      console.error(`[Delivery] Network error for ${copy.channel}/${copy.variant}/${copy.language}: ${errorMsg}`);
+      
       retryLog.push({
         attempt,
         status: "failed",

@@ -7,7 +7,7 @@ const CHANNEL_ICONS: Record<string, string> = {
 };
 
 const VARIANT_LABELS: Record<string, string> = {
-  urgency: '⚡ Urgency', value: '💰 Value', social_proof: '👥 Social Proof',
+  urgency: '⚡ Urgency', value: '💰 Value', social_proof: '👥 Social',
 };
 
 const LANG_LABELS: Record<string, string> = {
@@ -75,27 +75,14 @@ export function CopyViewer({ events }: { events: DeliveryEvent[] }) {
   const [filterVariant, setFilterVariant] = useState<string>('all');
   const [filterLang, setFilterLang] = useState<string>('all');
 
-  // Deduplicate: keep the latest event per channel/variant/language
-  const copies = useMemo(() => {
-    const seen = new Map<string, DeliveryEvent>();
-    for (const evt of events) {
-      if (!evt.content) continue;
-      const key = `${evt.channel}-${evt.variant}-${evt.language}`;
-      if (!seen.has(key)) {
-        seen.set(key, evt);
-      }
-    }
-    return Array.from(seen.values());
-  }, [events]);
-
   const filtered = useMemo(() => {
-    return copies.filter((e) => {
+    return events.filter((e) => {
       if (filterChannel !== 'all' && e.channel !== filterChannel) return false;
       if (filterVariant !== 'all' && e.variant !== filterVariant) return false;
       if (filterLang !== 'all' && e.language !== filterLang) return false;
       return true;
     });
-  }, [copies, filterChannel, filterVariant, filterLang]);
+  }, [events, filterChannel, filterVariant, filterLang]);
 
   const channels = ['all', 'email', 'whatsapp', 'push', 'glance', 'payu', 'instagram'];
   const variants = ['all', 'urgency', 'value', 'social_proof'];
@@ -104,7 +91,7 @@ export function CopyViewer({ events }: { events: DeliveryEvent[] }) {
   return (
     <div className="copy-viewer">
       <div className="copy-viewer-header">
-        <h2 className="section-title">📝 Generated Copies ({copies.length}/54)</h2>
+        <h2 className="section-title">📝 Generated Copies ({events.length}/54)</h2>
         <div className="copy-filters">
           <div className="filter-group">
             <label className="filter-label">Channel</label>
@@ -153,7 +140,7 @@ export function CopyViewer({ events }: { events: DeliveryEvent[] }) {
 
       {filtered.length === 0 ? (
         <div className="copy-empty">
-          {copies.length === 0
+          {events.length === 0
             ? 'Waiting for copies to arrive…'
             : 'No copies match the current filters.'}
         </div>

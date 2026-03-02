@@ -151,12 +151,7 @@ server.tool(
 
     try {
       // Parse the copies JSON
-      let copies: Array<{
-        channel: string;
-        variant: string;
-        language: string;
-        content: unknown;
-      }>;
+      let copies: import("./types.js").ChannelCopy[];
 
       try {
         const parsed = JSON.parse(args.copies_json);
@@ -191,14 +186,9 @@ server.tool(
       });
 
       // Step 2: Deliver all copies
-      console.error("[MCP] Delivering copies to webhook endpoints...");
+      console.error(`[MCP] Delivering ${copies.length} copies to webhook endpoints...`);
       const deliveryResults = await deliverAll(
-        copies.map((c) => ({
-          channel: c.channel as "email" | "whatsapp" | "push" | "glance" | "payu" | "instagram",
-          variant: c.variant as "urgency" | "value" | "social_proof",
-          language: c.language as "en" | "hi" | "te",
-          content: c.content as any,
-        })),
+        copies,
         webhookBaseUrl
       );
 
