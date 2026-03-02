@@ -1,0 +1,33 @@
+{
+  "name": "grabon-deal-distribution-mcp",
+  "version": "1.0.0",
+  "description": "Multi-Channel Deal Distribution MCP Server for GrabOn",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "grabon-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": [
+    "mcp",
+    "grabon",
+    "deal-distribution"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "express": "^5.2.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
