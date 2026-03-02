@@ -1,5 +1,13 @@
 {
   "preferences": {
     "coworkWebSearchEnabled": true
+  },
+  "mcpServers": {
+    "grabon-deal-distribution": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\aditya\\Desktop\\New folder\\backend\\dist\\index.js"
+      ]
+    }
   }
 }

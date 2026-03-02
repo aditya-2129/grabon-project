@@ -66,13 +66,15 @@ The project includes a **Vite + React** dashboard for real-time visualization of
 - Node.js 18+
 - Claude Desktop
 
-### 1. Build & Run Backend
+### 1. Build the Backend (MCP Server)
 
 ```bash
+cd backend
 npm install
 npm run build
-# The MCP server starts the webhook server on port 3456 automatically
 ```
+
+_(Note: The server will be automatically started by Claude Desktop, which will in turn spin up the webhook server on port 3456.)_
 
 ### 2. Build & Run Dashboard
 
@@ -93,7 +95,7 @@ Add to your Claude Desktop config file at `%APPDATA%\Claude\claude_desktop_confi
   "mcpServers": {
     "grabon-deal-distribution": {
       "command": "node",
-      "args": ["C:\\Users\\aditya\\Desktop\\New folder\\dist\\index.js"]
+      "args": ["ABSOLUTE_PATH_TO_YOUR_PROJECT/backend/dist/index.js"]
     }
   }
 }

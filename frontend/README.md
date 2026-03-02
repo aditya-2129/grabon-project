@@ -31,7 +31,7 @@ This is the React-based frontend dashboard that connects to the GrabOn MCP Serve
 ### Prerequisites
 
 - Node.js 18+
-- The GrabOn MCP Server running (it provides the `/events` SSE stream)
+- The GrabOn MCP Server running. Start the backend as described in the [root README](../README.md); it automatically provides the `/events` SSE stream.
 
 ### Setup
 
