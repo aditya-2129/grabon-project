@@ -73,24 +73,66 @@ CHANNELS & FORMAT CONSTRAINTS:
 A/B VARIANT STRATEGIES:
 ═══════════════════════════════════════
 
-For EACH channel, generate 3 meaningfully different variants:
+For EACH channel, generate 3 meaningfully different variants. Each variant must feel like it was written by a different copywriter with a completely different marketing philosophy.
 
-1. "urgency" — Create urgency/FOMO. Use time limits, scarcity ("only X left"), countdown language. Make the reader feel they'll miss out.
+1. "urgency" — SCARCITY & FOMO
+   - Core angle: TIME IS RUNNING OUT, quantities are LIMITED
+   - Emotional trigger: anxiety about missing out, countdown pressure
+   - Language style: short punchy sentences, alarm tone, exclamation marks
+   - Example (email subject): "⏰ 3 hours left — your 20% Zomato code dies at midnight"
+   - Example (WhatsApp): "🚨 Bro this deal's dying! 20% off Zomato ends TONIGHT. Only 847 left. GO NOW"
+   - AVOID: Mentioning savings math or how many people used it
 
-2. "value" — Lead with the value proposition. Emphasize savings amount, ROI, getting more for less. Make the deal feel like a steal.
+2. "value" — SAVINGS MATH & ROI
+   - Core angle: Here's EXACTLY how much you save, your wallet will thank you
+   - Emotional trigger: smart shopper satisfaction, getting more for less
+   - Language style: conversational, calculating, "here's the math"
+   - Example (email subject): "Your dinner just got ₹200 cheaper — that's a free dessert"
+   - Example (WhatsApp): "Hey! 20% off Zomato rn. That ₹500 order? Now ₹400. Legit best deal today 💰"
+   - AVOID: Countdown language or mentioning how many people used it
 
-3. "social_proof" — Leverage social validation. Reference popularity ("10K+ people grabbed this"), trending status, ratings, community behavior.
+3. "social_proof" — CROWD VALIDATION & TRENDING
+   - Core angle: EVERYONE is using this, it's the #1 deal, don't be left out
+   - Emotional trigger: wanting to be part of the crowd, validation from numbers
+   - Language style: excited, community-oriented, citing specific numbers
+   - Example (email subject): "47,000+ foodies grabbed this Zomato deal this week — your turn"
+   - Example (WhatsApp): "🔥 2K+ people grabbed 20% off Zomato! Hottest food deal rn. Don't be last!"
+   - AVOID: Countdown language or savings math
 
-CRITICAL: Variants must be MEANINGFULLY DIFFERENT in tone, angle, and messaging strategy. NOT just synonym swaps or minor word changes.
+CRITICAL DIFFERENTIATION RULES:
+- An urgency variant should NEVER mention "X people grabbed this" — that's social proof
+- A value variant should NEVER say "hurry" or "ending soon" — that's urgency
+- A social proof variant should NEVER calculate savings — that's value
+- Each variant must be written from a FUNDAMENTALLY DIFFERENT ANGLE
 
 ═══════════════════════════════════════
-LANGUAGES:
+LANGUAGES & CULTURAL GUIDELINES:
 ═══════════════════════════════════════
 
-Generate each variant in 3 languages:
+Generate each variant in 3 languages. Localization must be CULTURALLY NATIVE, not just translated.
+
 1. "en" — English
-2. "hi" — Hindi (Devanagari script). Must be CULTURALLY NATURAL Hindi, not Google Translate. Use colloquial deal language Indians actually use: "लूट लो", "मत चूको", "पैसे वसूल", etc.
-3. "te" — Telugu (Telugu script). Must be CULTURALLY ACCURATE Telugu. Telugu idioms for deal urgency are different from Hindi. Use natural expressions: "అదిరిపోయే ఆఫర్", "మిస్ అవ్వకండి", etc.
+   Standard marketing English. Conversational, not corporate.
+
+2. "hi" — Hindi (Devanagari script)
+   MUST sound like how an Indian friend texts you about a deal. NOT Google Translate.
+   
+   Cultural rules:
+   - WhatsApp: Use natural Hinglish (mix of Hindi + English) since that's how Indians actually text: "Bhai jaldi!" not "भाई जल्दी करो"
+   - Email/Push: Use Devanagari script but with colloquial tone
+   - Use natural deal slang: "लूट लो" (grab it), "मत चूको" (don't miss), "पैसे वसूल" (money's worth), "धांसू डील" (killer deal), "बंपर बचत" (bumper savings), "फटाफट" (quickly)
+   - Use "तुम/तू" (informal you) not "आप" (formal you) — this is a deal, not a government notice
+   - For PayU: Keep it ultra-short in Hindi, consider Hinglish if natural
+   
+3. "te" — Telugu (Telugu script for Email/Push/Glance, transliterated Roman for WhatsApp)
+   MUST use authentic Telugu expressions. Telugu deal culture is DIFFERENT from Hindi.
+   
+   Cultural rules:
+   - WhatsApp: Use Telugu-English mix in Roman script (how Telugu speakers actually text): "Chudandi!" not "చూడండి!"
+   - Email/Push: Use Telugu script with natural expressions
+   - Telugu deal idioms (USE THESE): "అదిరిపోయే ఆఫర్" (mind-blowing offer), "మిస్ అవ్వకండి" (don't miss), "డబ్బు పూర్తిగా వసూల్" (full value for money), "బంపర్ ఆదా" (bumper savings), "అందరి ఛాయిస్" (everyone's choice)
+   - Telugu urgency feels different from Hindi: use "ఇప్పుడు కాకపోతే ఎప్పుడూ కాదు" (now or never) not just a translation of "jaldi karo"
+   - Telugu social proof: "అందరూ మాట్లాడుకుంటున్నారు" (everyone's talking about it), "లక్షలమంది నమ్ముతున్నారు" (lakhs trust this)
 
 ═══════════════════════════════════════
 OUTPUT FORMAT (STRICT JSON):

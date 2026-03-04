@@ -1,14 +1,46 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import type { DeliveryEvent, CopyContent } from './types';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { FileText } from 'lucide-react';
+import { FileText, Copy, Check } from 'lucide-react';
 import { ChannelIcon, VariantIcon, VARIANT_ICON_COMPONENTS } from './Charts';
 
 const LANG_LABELS: Record<string, string> = {
   en: 'EN', hi: 'HI', te: 'TE',
 };
+
+function getPlainText(content: CopyContent): string {
+  switch (content.type) {
+    case 'email':
+      return `Subject: ${content.data.subject}\nHeadline: ${content.data.body_headline}\nCTA: ${content.data.cta}`;
+    case 'push':
+      return `${content.data.title}\n${content.data.body}`;
+    case 'instagram':
+      return `${content.data.caption}\n\n${content.data.hashtags.map((t: string) => `#${t}`).join(' ')}`;
+    default:
+      return String(content.data);
+  }
+}
+
+function CopyButton({ content }: { content: CopyContent }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(getPlainText(content)).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }, [content]);
+  return (
+    <button
+      onClick={handleCopy}
+      title="Copy to clipboard"
+      className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-all duration-200 cursor-pointer"
+    >
+      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+    </button>
+  );
+}
 
 function renderContent(content: CopyContent) {
   switch (content.type) {
@@ -198,6 +230,7 @@ export function CopyViewer({ events }: { events: DeliveryEvent[] }) {
                     <VariantIcon variant={evt.variant} className="w-3 h-3 mr-1" /> {VARIANT_ICON_COMPONENTS[evt.variant]?.label}
                   </Badge>
                   <Badge variant="outline" className="border-border/30 bg-background/30 font-mono tracking-wider text-[10px]">{LANG_LABELS[evt.language]}</Badge>
+                  {evt.content && <CopyButton content={evt.content} />}
                 </div>
                 <Badge 
                   variant={evt.status === 'delivered' ? 'default' : evt.status === 'failed' ? 'destructive' : 'secondary'}
