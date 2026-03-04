@@ -7,6 +7,14 @@ A fully spec-compliant MCP server that turns a single merchant deal payload into
 
 ---
 
+## 🎥 Live Demo Walkthrough
+
+[![Loom Walkthrough](https://img.shields.io/badge/Play_Video-Loom_Walkthrough-552586?style=for-the-badge&logo=loom)](https://www.loom.com/share/1b7616dcc1f44940a232622d00248950)
+
+_A 10-minute deep dive showing the MCP integration, live distribution of 54 outputs, real-time dashboard analytics, variant differentiation, cultural localization, and edge-case handling (webhook retries)._
+
+---
+
 ## 📑 Table of Contents
 
 - [Why This Matters](#-why-this-matters)
